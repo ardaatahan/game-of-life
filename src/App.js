@@ -17,16 +17,28 @@ const operations = [
   [-1, 1],
 ];
 
+const generateEmptyGrid = () => {
+  const rows = [];
+
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => 0));
+  }
+
+  return rows;
+};
+
+const generateRandomGrid = () => {
+  const rows = [];
+
+  for (let i = 0; i < numRows; i++) {
+    rows.push(Array.from(Array(numCols), () => (Math.random() > 0.3 ? 0 : 1)));
+  }
+
+  return rows;
+};
+
 const App = () => {
-  const [grid, setGrid] = useState(() => {
-    const rows = [];
-
-    for (let i = 0; i < numRows; i++) {
-      rows.push(Array.from(Array(numCols), () => 0));
-    }
-
-    return rows;
-  });
+  const [grid, setGrid] = useState(() => generateEmptyGrid());
 
   const [isRunning, setIsRunning] = useState(false);
 
@@ -63,7 +75,7 @@ const App = () => {
       });
     });
 
-    setTimeout(runSimulation, 1000);
+    setTimeout(runSimulation, 100);
   }, []);
 
   return (
@@ -78,6 +90,20 @@ const App = () => {
         }}
       >
         {isRunning ? "stop" : "start"}
+      </button>
+      <button
+        onClick={() => {
+          setGrid(generateEmptyGrid());
+        }}
+      >
+        clear
+      </button>
+      <button
+        onClick={() => {
+          setGrid(generateRandomGrid());
+        }}
+      >
+        random
       </button>
       <div className="App">
         <div
